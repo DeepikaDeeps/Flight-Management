@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 subcontainer">
+      <div class="plane">
+        <div class="cockpit">
+          <h1>{{flightdetails?.FlightNumber}} Seat Selection</h1>
+        </div>
+        <div class="exit exit--front fuselage"></div>
+        <ol class="cabin fuselage">
+          <li class="row row--1">
+            <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
+              <li class="seat" *ngFor="let seat of seats"  (click)="getSelectedSeat(seat)">
+                <input type="checkbox" id="{{seat}}" [ngClass]="{'infantpassenger': checkPassengerType(seat)=='infant',
+                'wheelchairpassenger': checkPassengerType(seat)=='wheel-chair', 'normalpassenger': checkPassengerType(seat)=='none'}" />
+                <label for="seat">{{seat}}</label>
+              </li>
+            </ol>
+          </li>
+        </ol>
+        <div class="exit exit--back fuselage"></div>
+      </div>
+    </div>
+    <div class="col-lg-7 float-right">
+      <div class="row">
+        <div class="col-sm-3">
+          <table class=" table">
+            <tr  *ngFor="let data of seatcolorcode">
+              <th style="border: none;">{{data.type}}</th>
+              <td class="colorbar" [ngStyle]="{'background-color': data.color}"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr class="th-class">
+            <th>Name</th>
+            <th>Passport Number</th>
+            <th>Date of Birth</th>
+            <th>Flight Name</th>
+            <th>Seat Number</th>
+            <th>Ancillary Services</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let passenger of passenger_data">
+            <tr>
+              <td>{{passenger.passengerName}}</td>
+              <td>{{passenger.passportNumber}}</td>
+              <td>{{passenger.dob}}</td>
+              <td>{{passenger.flightName}}</td>
+              <td>{{passenger.seatNumber}}</td>
+              <td>{{passenger.services}}</td>
+              <td>{{passenger.address}}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<button hidden data-target="#bookseat" data-toggle="modal" #bookseat></button>
+<div class="modal Product_modal" data-backdrop="static" id="bookseat" tabindex="-1" role="dialog"
+  aria-labelledby="instructionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="h5 mb-2 fontt-16B"></h1>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+    <label class="vass-label">Select Name <span style="color: tomato;">*</span></label>
+                <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="dropdownList"
+                  (onSelect)="onPersonSelect($event)" #passenger >
+                </ng-multiselect-dropdown>
+      </div>
+      <div class="modal-footer ">
+        <button type="submit" class="btn btn-primary text-center" (click)="chekinPassenger()" data-dismiss="modal">Check-In</button>
+      </div>
+    </div>
+  </div>
+</div>
